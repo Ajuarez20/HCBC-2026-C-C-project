@@ -1,0 +1,5 @@
+<dependency>
+  <groupId>dev.langchain4j</groupId>
+  <artifactId>langchain4j-open-ai</artifactId>
+  <version>1.10.0</version>
+</dependency>
