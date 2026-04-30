@@ -1,12 +1,13 @@
+
 package application;
 
 import java.util.*;
 
 public class BusinessEmployee extends Employee {
+	
 
     public BusinessEmployee(String name, double skill) {
-        this.name = name;
-        this.skill = skill;
+    	super(name,skill);
         this.salary = 4000;
     }
 
