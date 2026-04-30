@@ -1,0 +1,27 @@
+package application;
+
+import java.util.*;
+
+public class BusinessEmployee extends Employee {
+
+    public BusinessEmployee(String name, double skill) {
+        this.name = name;
+        this.skill = skill;
+        this.salary = 4000;
+    }
+
+    @Override
+    public void evaluateTasks(TaskManager tm) {
+
+        List<Task> tasks = tm.assignTasks();
+        Random r = new Random();
+
+        for(Task t : tasks) {
+            if(r.nextDouble() < skill) {
+                performanceScore += 15;
+            } else {
+                performanceScore -= 8;
+            }
+        }
+    }
+}
