@@ -1,9 +1,9 @@
-package demo.src.main.java.com.example;
+package com.example;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserInterface{
-    @SuppressWarnings("FieldMayBeFinal")
+    
     private static ArrayList<Employee> Employeelist = new ArrayList<>();
 
     public static void main(String[] args) {

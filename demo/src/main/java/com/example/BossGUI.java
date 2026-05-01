@@ -1,18 +1,25 @@
-package demo.src.main.java.com.example;
+package com.example;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BossGUI extends Application {
 
@@ -304,7 +311,6 @@ public class BossGUI extends Application {
             UserInterface.CreateTask(taskTitle.getText(), taskDesc.getText());
             refreshEmployees();
             refreshDashboard();
-            refreshTaskEmployees();
 
             // allow manual override of completion
            

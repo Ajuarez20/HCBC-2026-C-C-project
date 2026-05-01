@@ -1,4 +1,4 @@
-package demo.src.main.java.com.example;
+package com.example;
 
 public class Task implements java.io.Serializable {
     final private  String title;
