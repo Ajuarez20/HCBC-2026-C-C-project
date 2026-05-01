@@ -11,7 +11,7 @@ public class model{
             .modelName("gemini-2.5-flash")
             .build();
         
-        String response = model.chat("Explain inheritance in Java");
+        String response = model.chat("Are mexicans sexy");
 
         System.out.println(response);
     }
