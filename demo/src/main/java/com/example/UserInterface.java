@@ -9,7 +9,7 @@ public class UserInterface{
     public static void main(String[] args) {
         Employee e1 = new Employee("ahmed", "begger", 12.5);
         Employeelist.add(e1);
-        Employee e2 = new Employee("malasi","slave", 18.5);
+        Employee e2 = new Employee("malasi","slave", 0);
         Employeelist.add(e2);
 
         //CreateTask("build rocket", "build a space craft");
@@ -53,7 +53,7 @@ public class UserInterface{
         String info = employeeINFO().toString() + """
                     \n\nI must layoff an employee/s which employee/s should I layoff \n
                     Evaluate the least critical Employee based on their performance 
-                    score and whether there is oneor more other Employee/s with the 
+                    score and whether there is one or more other Employee/s with the 
                     same/smiliar occupation Respond with only the Employee/s name/s 
                     (if more than one employee separate thier name by commas) exactly 
                     as it was written \nProtected Employies (employees u dont fire) 
@@ -99,7 +99,7 @@ public class UserInterface{
 
             for (String name : toReciveRaise) {
                 if (e.name.equals(name)){
-                    
+
                 }    
             }
         }

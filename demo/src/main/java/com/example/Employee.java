@@ -23,11 +23,10 @@ public class Employee implements java.io.Serializable {
             this.performanceScore -= 20;
         }else{
             task.Completeion = true;
-            this.performanceScore -= 5;
+            this.performanceScore += 5;
         }
 
         this.OnGoingTasks.add(task);
-
 
     } 
 
