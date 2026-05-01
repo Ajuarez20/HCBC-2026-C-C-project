@@ -1,13 +1,25 @@
-package com.example;
+
+package demo.src.main.java.com.example;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import demo.src.main.java.com.example.Employee;
+import demo.src.main.java.com.example.PayrollReport;
 
 public class UserInterface{
     
     private static ArrayList<Employee> Employeelist = new ArrayList<>();
 
     public static void main(String[] args) {
+        Employee e1 = new Employee("ahmed", "begger", 12.5);
+        Employeelist.add(e1);
+        Employee e2 = new Employee("malasi","slave", 0);
+        Employeelist.add(e2);
 
+        //CreateTask("build rocket", "build a space craft");
+        PayrollReport.generateReport();
+
+        //FireEmployees();
     }
 
     public static ArrayList<Employee> getEmployeeList(){
@@ -26,14 +38,21 @@ public class UserInterface{
         return info;
     }
 
-    public static void HireEmployee(String Name, String Occupation, double salary){
+    public static void HireEmployee(String Name, String Occupation){
 
-        Employee employee = new Employee(Name, Occupation, salary);
-        Employeelist.add(employee);
+        //pronmpt user via Gui to enter employee specs
+        //name
+        //enter occupation
         
+       
+
     }
 
-    public static ArrayList<String> FireEmployees(ArrayList<String> ProtectedEmployeeNames){
+    public static void FireEmployees(){
+
+        // add a gui Option that protects certin employees from being fired
+
+        ArrayList<String> ProtectedEmployeeNames = new ArrayList<>();    
 
         String info = employeeINFO().toString() + """
                     \n\nI must layoff an employee/s which employee/s should I layoff \n
@@ -62,7 +81,7 @@ public class UserInterface{
             }
             return false;
         });
-        return toBeFired;
+
     }
 
     public static void GiveRaises(){
@@ -90,7 +109,7 @@ public class UserInterface{
         }
     }
 
-    public static String CreateTask(String taskName, String taskDiscription){
+    public static void CreateTask(String taskName, String taskDiscription){
 
         // gui will prompt user for name of the task and description then Ai will select the emplyee most fit for the job or prompt user to hire someone from a field that corisponds
 
@@ -107,20 +126,19 @@ public class UserInterface{
         String response = model.chatbot.chat(info);
         System.out.println(response);
 
-        String[] names = response.split(",", 2);
+        String[] names = response.split("[,\\s]+");
         ArrayList<String> segments = new ArrayList<>(Arrays.asList(names));
 
-        if (segments.get(0).trim().equals("Hire a")){
+        if (segments.get(0).equals("Hire a")){
             //prompt user to hire the occupation it suggests
-            return "No Employee Fits the current task hire a: " + segments.get(1)+"!!!"; 
         }else{
-
             for (Employee e : Employeelist) {
-                if (e.name.equalsIgnoreCase(response.trim())){
+                if (e.name.equals(response)){
                     e.TakeOnTask(task);
                 }
             }
-            return "Task was Assigned to "+ response+"!";
-        } 
+        }    
+        // update Gui
+        System.out.println(employeeINFO().toString());
     }
 }

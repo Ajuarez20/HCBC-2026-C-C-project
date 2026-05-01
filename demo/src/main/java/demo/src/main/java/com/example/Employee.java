@@ -1,4 +1,4 @@
-package com.example;
+package demo.src.main.java.com.example;
 import java.util.ArrayList;
 public class Employee implements java.io.Serializable {
     protected String name;

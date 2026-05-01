@@ -1,4 +1,4 @@
-package com.example;
+package demo.src.main.java.com.example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,10 +52,10 @@ public class BossGUI extends Application {
         this.stage = stage;
 
         users.put("admin", "123");
-        UserInterface.HireEmployee("John", "Custodian", 25000);
+        UserInterface.HireEmployee("John", "Custodian", 2500);
         UserInterface.HireEmployee("Sarah", "Business Emp", 3500);
-        UserInterface.HireEmployee("Mike", "It worker", 3500);
-        UserInterface.HireEmployee("Issac", "Engineer", 3500);
+        UserInterface.HireEmployee("Mike", "It worker", 4500);
+        UserInterface.HireEmployee("Issac", "Engineer", 4500);
 
         createLoginScene();
         createDashboardScene();
@@ -112,7 +112,7 @@ public class BossGUI extends Application {
             }
         });
 
-        VBox layout = new VBox(15,
+        VBox layout = new VBox(30,
                 imgView, title, username, password, loginBtn, msg
         );
         layout.setAlignment(Pos.CENTER);
@@ -156,7 +156,7 @@ public class BossGUI extends Application {
 
      
 
-        VBox root = new VBox(20,
+        VBox root = new VBox(30,
                 title,
                 budgetLabel,
                 costLabel,
@@ -222,7 +222,7 @@ public class BossGUI extends Application {
         back.setOnAction(e -> stage.setScene(dashboardScene));
 
         // ================= LAYOUT =================
-        VBox layout = new VBox(15,
+        VBox layout = new VBox(30,
             title, employeeListView, name, occupation,
             salary,
             hire, fire, back,
@@ -275,14 +275,14 @@ public class BossGUI extends Application {
 
         Label msg = new Label();
 
-        Button assignBtn = new Button("Assign Task");
+        Button assignBtn = new Button("Create Task");
         Button backBtn = new Button("Back");
 
         // ================= GRID =================
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setHgap(25);
+        grid.setVgap(25);
         grid.setAlignment(Pos.CENTER);
 
         // Row 0
@@ -297,9 +297,13 @@ public class BossGUI extends Application {
         grid.add(taskDesc, 1, 3);
 
        ;
-
+       
+       assignBtn.setMaxWidth(200);
+       assignBtn.setMaxWidth(200);
         // Row 5
         grid.add(assignBtn, 0, 5);
+        
+        
         grid.add(backBtn, 1, 5);
 
         // Row 6
@@ -354,9 +358,10 @@ public class BossGUI extends Application {
 
         Button back = new Button("Back");
         back.setOnAction(e -> stage.setScene(dashboardScene));
-
-        VBox layout = new VBox(10,
-                new Label("Report"),
+        Label report1 = new Label(" Employee Report");
+        report1.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        VBox layout = new VBox(25,
+                report1,
                 report,
                 back
         );
