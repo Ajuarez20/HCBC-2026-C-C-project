@@ -5,9 +5,10 @@ import java.util.Random;
 import okhttp3.internal.concurrent.Task;
 
 public class BusinessEmployee extends Employee {
+	
 
     public BusinessEmployee(String name, double skill) {
-        super(name, skill);
+    	super(name,skill);
         this.salary = 4000;
     }
 
