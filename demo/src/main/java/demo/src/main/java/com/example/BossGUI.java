@@ -1,4 +1,5 @@
-package com.example;
+package demo.src.main.java.com.example;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class BossGUI extends Application {
 
@@ -267,10 +269,7 @@ public class BossGUI extends Application {
         // Row 0
         grid.add(title, 0, 0, 2, 1);
 
-        // Row 1
-        grid.add(new Label("Employee:"), 0, 1);
-        grid.add(employeeBox, 1, 1);
-
+      
         // Row 2
         grid.add(new Label("Title:"), 0, 2);
         grid.add(taskTitle, 1, 2);
@@ -339,7 +338,7 @@ public class BossGUI extends Application {
     private void createReportScene() {
 
         TextArea report = new TextArea();
-        report.setText(generateReport());
+        report.setText(PayrollReport.generateReport());
 
         Button back = new Button("Back");
         back.setOnAction(e -> stage.setScene(dashboardScene));
