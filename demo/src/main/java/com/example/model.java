@@ -8,7 +8,7 @@ public class model {
     public static ChatLanguageModel chatbot = createChatbot();
 
     public static ChatLanguageModel createChatbot() {
-        String apiKey = "AIzaSyB4ELWuuVq8ZS6no8EHuR3T7QPSFwdigVE";
+        String apiKey = "AIzaSyAwFBVl73nze3EB3j5E6gRIfR7xNt67F44";
 
         return GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)

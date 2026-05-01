@@ -3,41 +3,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserInterface{
-    public static ArrayList<Employee> Employeelist = new ArrayList<>();
+    private static ArrayList<Employee> Employeelist = new ArrayList<>();
 
     public static void main(String[] args) {
-        Employee e1 = new Custodian("ahmed", 12.5);
+        Employee e1 = new Employee("ahmed", "begger", 12.5);
         Employeelist.add(e1);
-        Employee e2 = new Custodian("malasi", 12.5);
+        Employee e2 = new Employee("malasi","slave", 18.5);
         Employeelist.add(e2);
-        FireEmployees();
+
+        //CreateTask("build rocket", "build a space craft");
+        PayrollReport.generateReport();
+
+        //FireEmployees();
     }
 
-    public static void HireEmployee(){
-
-        //pronmpt user via Gui to enter employee specs
-        //name
-        //age
-        // select occupation
-        
-        /*
-        if (occuoation == Custodian){
-            Custodian Employee = new Custodian(null, 0)
-        }else if (occuoation == BusinessEmployee){
-            BusinessEmployee Employee = new BusinessEmployee(null, 0)
-        }
-
-        Employeelist.add(Employee)
-
-        */
-
-        //that is the idea
-
+    public static ArrayList<Employee> getEmployeeList(){
+        return Employeelist;
     }
 
-    public static void FireEmployees(){
-
-        // add a gui Option that protects certin employees from being fired
+    public static StringBuilder employeeINFO(){
 
         StringBuilder info = new StringBuilder("");
 
@@ -46,8 +30,30 @@ public class UserInterface{
             info.append(e.SelfAsses());
 
         }
+        return info;
+    }
 
-        info.append("I must layoff an employee/s which employee/s should I layoff \nRespond with only the Employee/s names (if more than one employee separate thier name by commas) exactly as it was written");
+    public static void HireEmployee(String Name, String Occupation){
+
+        //pronmpt user via Gui to enter employee specs
+        //name
+        //enter occupation
+        
+       
+
+    }
+
+    public static void FireEmployees(){
+
+        // add a gui Option that protects certin employees from being fired
+
+        StringBuilder info = employeeINFO();
+
+        info.append("""
+                    I must layoff an employee/s which employee/s should I layoff \n
+                    Respond with only the Employee/s name/s (if more than one employee separate thier name by commas) exactly as it was written
+                    """);
+        
         System.out.println(info);
 
         String response = model.chatbot.chat(info.toString());
@@ -69,6 +75,36 @@ public class UserInterface{
 
     }
 
-    
+    public static void CreateTask(String taskName, String taskDiscription){
 
+        // gui will prompt user for name of the task and description then Ai will select the emplyee most fit for the job or prompt user to hire someone from a field that corisponds
+
+        Task task = new Task(taskName,taskDiscription);    
+        String info = employeeINFO().toString() + "\n\nThe new taks is: " + task.toString() +  
+                    """
+                    which employee has the occipation most fit for this task? \nEmployees can only have up to 4 tasks Respond with only the exact name Employee's name.\n\n
+                    if no employee fits the job type "Hire a,[suggested occupation]" (make sure the coma is there)
+                    """;
+        
+        System.out.println(info);
+
+
+        String response = model.chatbot.chat(info);
+        System.out.println(response);
+
+        String[] names = response.split("[,\\s]+");
+        ArrayList<String> segments = new ArrayList<>(Arrays.asList(names));
+
+        if (segments.get(0).equals("Hire a")){
+            //prompt user to hire the occupation it suggests
+        }else{
+            for (Employee e : Employeelist) {
+                if (e.name.equals(response)){
+                    e.TakeOnTask(task);
+                }
+            }
+        }    
+        // update Gui
+        System.out.println(employeeINFO().toString());
+    }
 }
