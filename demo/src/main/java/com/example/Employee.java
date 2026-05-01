@@ -12,7 +12,7 @@ public class Employee implements java.io.Serializable {
         this.name = name;
         this.skill = 0.3 + Math.random() * 0.7; //adds the random skill between 30 and 100
         this.Occupation = occupation;
-        this.salary=3000;
+        this.salary = Salary;
     }
 
     public void TakeOnTask(Task task){

@@ -7,15 +7,7 @@ public class UserInterface{
     private static ArrayList<Employee> Employeelist = new ArrayList<>();
 
     public static void main(String[] args) {
-        Employee e1 = new Employee("ahmed", "begger", 12.5);
-        Employeelist.add(e1);
-        Employee e2 = new Employee("malasi","slave", 0);
-        Employeelist.add(e2);
 
-        //CreateTask("build rocket", "build a space craft");
-        PayrollReport.generateReport();
-
-        //FireEmployees();
     }
 
     public static ArrayList<Employee> getEmployeeList(){
@@ -34,17 +26,14 @@ public class UserInterface{
         return info;
     }
 
-    public static void HireEmployee(String Name, String Occupation){
+    public static void HireEmployee(String Name, String Occupation, double salary){
 
-        //pronmpt user via Gui to enter employee specs
-        //name
-        //enter occupation
+        Employee employee = new Employee(Name, Occupation, salary);
+        Employeelist.add(employee);
         
-       
-
     }
 
-    public static void FireEmployees(){
+    public static ArrayList<String> FireEmployees(){
 
         // add a gui Option that protects certin employees from being fired
 
@@ -77,7 +66,7 @@ public class UserInterface{
             }
             return false;
         });
-
+        return toBeFired;
     }
 
     public static void GiveRaises(){
@@ -105,7 +94,7 @@ public class UserInterface{
         }
     }
 
-    public static void CreateTask(String taskName, String taskDiscription){
+    public static String CreateTask(String taskName, String taskDiscription){
 
         // gui will prompt user for name of the task and description then Ai will select the emplyee most fit for the job or prompt user to hire someone from a field that corisponds
 
@@ -122,19 +111,20 @@ public class UserInterface{
         String response = model.chatbot.chat(info);
         System.out.println(response);
 
-        String[] names = response.split("[,\\s]+");
+        String[] names = response.split(",", 2);
         ArrayList<String> segments = new ArrayList<>(Arrays.asList(names));
 
-        if (segments.get(0).equals("Hire a")){
+        if (segments.get(0).trim().equals("Hire a")){
             //prompt user to hire the occupation it suggests
+            return "No Employee Fits the current task hire a: " + segments.get(1)+"!!!"; 
         }else{
+
             for (Employee e : Employeelist) {
-                if (e.name.equals(response)){
+                if (e.name.equalsIgnoreCase(response.trim())){
                     e.TakeOnTask(task);
                 }
             }
-        }    
-        // update Gui
-        System.out.println(employeeINFO().toString());
+            return "Task was Assigned to "+ response+"!";
+        } 
     }
 }
