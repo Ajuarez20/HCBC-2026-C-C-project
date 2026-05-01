@@ -1,6 +1,5 @@
 package demo.src.main.java.com.example;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class BossGUI extends Application {
 
@@ -54,10 +52,10 @@ public class BossGUI extends Application {
         this.stage = stage;
 
         users.put("admin", "123");
-        employees.add(new Employee("John", "Custodian", 25000));
-        employees.add(new Employee("Sarah", "Business Emp", 3500));
-        employees.add(new Employee("Mike", "It worker", 3500));
-        employees.add(new Employee("Issac", "Engineer", 3500));
+        UserInterface.HireEmployee("John", "Custodian", 2500);
+        UserInterface.HireEmployee("Sarah", "Business Emp", 3500);
+        UserInterface.HireEmployee("Mike", "It worker", 4500);
+        UserInterface.HireEmployee("Issac", "Engineer", 4500);
 
         createLoginScene();
         createDashboardScene();
@@ -114,10 +112,9 @@ public class BossGUI extends Application {
             }
         });
 
-        VBox layout = new VBox(15,
+        VBox layout = new VBox(30,
                 imgView, title, username, password, loginBtn, msg
         );
-
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(25));
         layout.setMaxWidth(300);
@@ -159,7 +156,7 @@ public class BossGUI extends Application {
 
      
 
-        VBox root = new VBox(20,
+        VBox root = new VBox(30,
                 title,
                 budgetLabel,
                 costLabel,
@@ -188,10 +185,14 @@ public class BossGUI extends Application {
         name.setPromptText("Name");
         name.setMaxWidth(200);
 
-        ComboBox<String> type = new ComboBox<>();
-        type.getItems().addAll("Custodian", "Business Emp", "Engineer"," IT worker");
-        type.setPromptText("Select Role");
-        type.setMaxWidth(200);
+        TextField occupation = new TextField();
+        occupation.setPromptText("Occupation");
+        occupation.setMaxWidth(200);
+
+        TextField salary = new TextField();
+        salary.setPromptText("Salary (year)");
+        salary.setMaxWidth(200);
+
 
         // ================= LIST =================
         employeeListView.setPrefHeight(250);
@@ -207,24 +208,21 @@ public class BossGUI extends Application {
         back.setMaxWidth(200);
 
         // ================= HIRE LOGIC =================
-        hire.setOnAction(e -> { String n = name.getText(); 
-        
-        String t = type.getValue(); if (n == null || n.isEmpty() || t == null) return;
-        UserInterface.HireEmployee(n, t);
+        hire.setOnAction(e -> { 
+        String n = name.getText();
+        String t = occupation.getText(); if (n == null || n.isEmpty() || t == null) return;
+        double s = Double.parseDouble((salary.getText()));
+        UserInterface.HireEmployee(n, t, s);
         refreshEmployees(); refreshDashboard();
-        name.clear(); type.setValue(null); });
+        name.clear(); occupation.clear(); salary.clear(); });
         // ================= BACK =================
         back.setOnAction(e -> stage.setScene(dashboardScene));
 
         // ================= LAYOUT =================
-        VBox layout = new VBox(15,
-                title,
-                employeeListView,
-                name,
-                type,
-                hire,
-                fire,
-                back
+        VBox layout = new VBox(30,
+            title, employeeListView, name, occupation,
+            salary,
+            hire, fire, back
         );
 
         layout.setAlignment(Pos.CENTER);
@@ -245,7 +243,7 @@ public class BossGUI extends Application {
 
         // ================= INPUTS =================
         ComboBox<Employee> employeeBox = new ComboBox<>();
-        employeeBox.getItems().setAll(employees);
+        employeeBox.getItems().setAll(UserInterface.getEmployeeList());
 
         TextField taskTitle = new TextField();
         taskTitle.setPromptText("Task Title");
@@ -256,20 +254,19 @@ public class BossGUI extends Application {
 
         Label msg = new Label();
 
-        Button assignBtn = new Button("Assign Task");
+        Button assignBtn = new Button("Create Task");
         Button backBtn = new Button("Back");
 
         // ================= GRID =================
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setHgap(25);
+        grid.setVgap(25);
         grid.setAlignment(Pos.CENTER);
 
         // Row 0
         grid.add(title, 0, 0, 2, 1);
 
-      
         // Row 2
         grid.add(new Label("Title:"), 0, 2);
         grid.add(taskTitle, 1, 2);
@@ -279,9 +276,13 @@ public class BossGUI extends Application {
         grid.add(taskDesc, 1, 3);
 
        ;
-
+       
+       assignBtn.setMaxWidth(200);
+       assignBtn.setMaxWidth(200);
         // Row 5
         grid.add(assignBtn, 0, 5);
+        
+        
         grid.add(backBtn, 1, 5);
 
         // Row 6
@@ -290,12 +291,6 @@ public class BossGUI extends Application {
         // ================= ASSIGN LOGIC =================
         assignBtn.setOnAction(e -> {
 
-            Employee selected = employeeBox.getValue();
-
-            if (selected == null) {
-                msg.setText("Select an employee");
-                return;
-            }
 
             String t = taskTitle.getText();
             String d = taskDesc.getText();
@@ -307,7 +302,7 @@ public class BossGUI extends Application {
 
             if (d == null) d = "";
 
-            UserInterface.CreateTask(taskTitle.getText(), taskDesc.getText());
+            String response = UserInterface.CreateTask(taskTitle.getText(), taskDesc.getText());
             refreshEmployees();
             refreshDashboard();
 
@@ -319,7 +314,7 @@ public class BossGUI extends Application {
             taskDesc.clear();
             
 
-            msg.setText("Task assigned!");
+            msg.setText(response);
 
             refreshEmployees();
             refreshDashboard();
@@ -342,9 +337,10 @@ public class BossGUI extends Application {
 
         Button back = new Button("Back");
         back.setOnAction(e -> stage.setScene(dashboardScene));
-
-        VBox layout = new VBox(10,
-                new Label("Report"),
+        Label report1 = new Label(" Employee Report");
+        report1.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        VBox layout = new VBox(25,
+                report1,
                 report,
                 back
         );
@@ -359,7 +355,7 @@ public class BossGUI extends Application {
     // LOGIC
     // ======================================================
     private void refreshEmployees() {
-        employeeListView.setItems(FXCollections.observableArrayList(employees));
+        employeeListView.setItems(FXCollections.observableArrayList(UserInterface.getEmployeeList()));
     }
 
     private void refreshDashboard() {
@@ -373,14 +369,14 @@ public class BossGUI extends Application {
 
     private double calculatePayroll() {
         double total = 0;
-        for (Employee e : employees) {
+        for (Employee e : UserInterface.getEmployeeList()) {
             total += e.salary;
         }
         return total;
     }
 
     private String generateReport() {
-        return "Employees: " + employees.size()
+        return "Employees: " + UserInterface.getEmployeeList().size()
                 + "\nPayroll: $" + calculatePayroll()
                 + "\nBudget: $" + budget;
     }

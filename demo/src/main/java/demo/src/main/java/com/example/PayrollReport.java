@@ -14,7 +14,7 @@ public class PayrollReport {
 
 	    for(Employee e : employeesList) {
 
-	        double pay = e.salary + (e.performanceScore * 10);
+	        double pay = e.salary;
 	        totalPayroll += pay;
 
 	        report.append(
