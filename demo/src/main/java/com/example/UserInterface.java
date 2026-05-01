@@ -1,4 +1,4 @@
-package com.example;
+package demo.src.main.java.com.example;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,7 +28,7 @@ public class UserInterface{
 
         for (Employee e : Employeelist) {
             
-            info.append(e.SelfAsses());
+            info.append(e.toString());
 
         }
         return info;

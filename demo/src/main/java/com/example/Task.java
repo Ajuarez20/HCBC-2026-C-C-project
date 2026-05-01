@@ -1,9 +1,9 @@
-package com.example;
+package demo.src.main.java.com.example;
 
 public class Task implements java.io.Serializable {
     final private  String title;
     final private String description;
-    public Boolean Completeion = false;
+    public boolean Completeion = false;
 
     public Task(String title, String description) {
         this.title = title;
@@ -12,6 +12,6 @@ public class Task implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "\nTask title: " + this.title + "\ntask Discription: " + this.description + "\ntask Completed:" + this.Completeion;
+        return "| Task title: " + this.title + "| task Discription: " + this.description + "| task Completed:" + this.Completeion;
     }
 }

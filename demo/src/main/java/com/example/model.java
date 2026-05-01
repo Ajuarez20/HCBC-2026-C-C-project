@@ -1,4 +1,4 @@
-package com.example;
+package demo.src.main.java.com.example;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
