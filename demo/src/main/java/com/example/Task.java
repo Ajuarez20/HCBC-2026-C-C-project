@@ -1,5 +1,4 @@
-package com.example
-import java.util.HashMap;
+package com.example;
 
 public class Task implements java.io.Serializable {
     private String title;

@@ -13,3 +13,4 @@ public abstract class Employee implements java.io.Serializable {
     }
 
     public abstract void evaluateTasks(TaskManager tm);
+}
