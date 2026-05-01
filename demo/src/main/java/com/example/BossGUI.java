@@ -1,4 +1,4 @@
-package com.demo;
+package com.example;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -23,7 +23,6 @@ public class BossGUI extends Application {
     // ================= DATA =================
     private HashMap<String, String> users = new HashMap<>();
     private ArrayList<Employee> employees = new ArrayList<>();
-    private TaskManager taskManager = new TaskManager();
 
     private double budget = 20000;
 
@@ -47,9 +46,6 @@ public class BossGUI extends Application {
         this.stage = stage;
 
         users.put("admin", "123");
-
-        employees.add(new Custodian("John"));
-        employees.add(new BusinessEmployee("Sarah"));
 
         createLoginScene();
         createDashboardScene();
@@ -232,9 +228,9 @@ public class BossGUI extends Application {
             Employee emp;
 
             if (t.equals("Custodian")) {
-                emp = new Custodian(n);
+
             } else {
-                emp = new BusinessEmployee(n);
+
             }
 
             employees.add(emp);
@@ -466,4 +462,6 @@ public class BossGUI extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 }
+  

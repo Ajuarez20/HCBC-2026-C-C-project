@@ -16,6 +16,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <langchain4j.version>1.0.0-beta2</langchain4j.version>
+    <javafx.version>21</javafx.version>
   </properties>
 
   <dependencyManagement>
@@ -44,6 +45,18 @@
       <artifactId>langchain4j-google-ai-gemini</artifactId>
     </dependency>
 
+    <!-- JavaFX -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+
     <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -68,16 +81,31 @@
 
   <build>
     <plugins>
+      <!-- JavaFX Maven Plugin -->
+      <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.8</version>
+          <configuration>
+              <mainClass>com.example.BossGUI</mainClass>
+              <options>
+                  <option>--add-reads</option>
+                  <option>com.example=ALL-UNNAMED</option>
+              </options>
+          </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
+        <configuration>
+            <compilerArgs>
+                <arg>--add-reads</arg>
+                <arg>com.example=ALL-UNNAMED</arg>
+            </compilerArgs>
+        </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-      </plugin>
+
     </plugins>
   </build>
 
