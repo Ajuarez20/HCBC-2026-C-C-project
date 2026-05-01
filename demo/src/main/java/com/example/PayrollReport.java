@@ -1,23 +1,19 @@
-package application;
-
+package com.example;
 import java.util.ArrayList;
 
 public class PayrollReport {
 
-	    private ArrayList<Employee> employees;
+    public static void main(String[] args) {
+        generateReport();
+    }
+    public static  void generateReport() {
 
-	    public PayrollReport(ArrayList<Employee> employees) {
-	        this.employees = employees;
-	    }
-
-	
-    public void generateReport() {
-
+        ArrayList<Employee> employeesList = UserInterface.getEmployeeList();
         double totalPayroll = 0;
 
         System.out.println("===== COMPANY PAYROLL REPORT =====");
 
-        for(Employee e : employees) {
+        for(Employee e : employeesList) {
 
             double pay = e.salary + (e.performanceScore * 10);
             totalPayroll += pay;
@@ -25,6 +21,7 @@ public class PayrollReport {
             System.out.println(
                 e.getClass().getSimpleName() +
                 " | " + e.name +
+                " | " + e.Occupation +
                 " | Score: " + e.performanceScore +
                 " | Pay: $" + pay
             );
