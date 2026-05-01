@@ -33,11 +33,7 @@ public class UserInterface{
         
     }
 
-    public static ArrayList<String> FireEmployees(){
-
-        // add a gui Option that protects certin employees from being fired
-
-        ArrayList<String> ProtectedEmployeeNames = new ArrayList<>();    
+    public static ArrayList<String> FireEmployees(ArrayList<String> ProtectedEmployeeNames){
 
         String info = employeeINFO().toString() + """
                     \n\nI must layoff an employee/s which employee/s should I layoff \n

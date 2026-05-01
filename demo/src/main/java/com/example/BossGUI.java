@@ -180,6 +180,9 @@ public class BossGUI extends Application {
         Label title = new Label("Employee Management");
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        Label fired = new Label("");
+
+
         // ================= INPUT =================
         TextField name = new TextField();
         name.setPromptText("Name");
@@ -200,7 +203,7 @@ public class BossGUI extends Application {
 
         // ================= BUTTONS =================
         Button hire = new Button("Hire Employee");
-        Button fire = new Button("Fire Selected");
+        Button fire = new Button("Layoff");
         Button back = new Button("Back");
 
         hire.setMaxWidth(200);
@@ -222,8 +225,26 @@ public class BossGUI extends Application {
         VBox layout = new VBox(15,
             title, employeeListView, name, occupation,
             salary,
-            hire, fire, back
+            hire, fire, back,
+            fired
         );
+
+        //=============== Fire Logic ===================
+        fire.setOnAction(event -> {
+            Employee selected = employeeListView.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                fired.setText("No employee selected.");
+                return;
+            }
+
+            ArrayList<String> protectedEmployeeNames = new ArrayList<>();
+            protectedEmployeeNames.add(selected.name);
+
+            ArrayList<String> firedList = UserInterface.FireEmployees(protectedEmployeeNames);
+            fired.setText("Fired: " + String.join(", ", firedList));
+            refreshEmployees();
+            refreshDashboard();
+        });
 
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
