@@ -9,6 +9,7 @@ public abstract class Employee implements java.io.Serializable {
     public Employee(String name, double skill) {
         this.name = name;
         this.skill = skill;
+         this.skill = 0.6 + Math.random() * 0.4; //adds the random skill 
     }
 
     public abstract void evaluateTasks(TaskManager tm);
