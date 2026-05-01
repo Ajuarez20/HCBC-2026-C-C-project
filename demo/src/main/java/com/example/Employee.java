@@ -1,4 +1,4 @@
-package application;
+package com.example;
 
 public abstract class Employee implements java.io.Serializable {
     protected String name;

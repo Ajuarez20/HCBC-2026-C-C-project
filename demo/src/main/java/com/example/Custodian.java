@@ -1,13 +1,11 @@
-package application;
-
+package com.example;
 import java.util.List;
 import java.util.Random;
 
 public class Custodian extends Employee {
 
 	    public Custodian(String name, double skill) {
-	        this.name = name;
-	        this.skill = skill;
+	        super(name, skill);
 	        this.salary = 2500;
 	    }
 

@@ -1,5 +1,4 @@
-package application;
-
+package com.example;
 import java.util.ArrayList;
 
 public class PayrollReport {

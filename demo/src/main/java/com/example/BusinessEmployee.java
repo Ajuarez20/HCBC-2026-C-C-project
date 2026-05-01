@@ -1,12 +1,13 @@
-package application;
+package com.example;
+import java.util.List;
+import java.util.Random;
 
-import java.util.*;
+import okhttp3.internal.concurrent.Task;
 
 public class BusinessEmployee extends Employee {
 
     public BusinessEmployee(String name, double skill) {
-        this.name = name;
-        this.skill = skill;
+        super(name, skill);
         this.salary = 4000;
     }
 
