@@ -1,8 +1,7 @@
-package com.example;
+package demo.src.main.java.com.example;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class BossGUI extends Application {
 
@@ -22,16 +20,17 @@ public class BossGUI extends Application {
 
     // ================= DATA =================
     private HashMap<String, String> users = new HashMap<>();
-    private ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<Employee> employees = UserInterface.getEmployeeList();
 
     private double budget = 20000;
 
-    // ================= GLOBAL UI =================
+    // ================= UI =================
     private Label budgetLabel = new Label();
     private Label costLabel = new Label();
     private Label statusLabel = new Label();
 
     private ListView<Employee> employeeListView = new ListView<>();
+
 
     // ================= SCENES =================
     private Scene loginScene;
@@ -46,22 +45,32 @@ public class BossGUI extends Application {
         this.stage = stage;
 
         users.put("admin", "123");
+        employees.add(new Employee("John", "Custodian", 25000));
+        employees.add(new Employee("Sarah", "Business Emp", 3500));
+        employees.add(new Employee("Mike", "It worker", 3500));
+        employees.add(new Employee("Issac", "Engineer", 3500));
 
         createLoginScene();
         createDashboardScene();
         createEmployeeScene();
         createTaskScene();
         createReportScene();
-
+        
+ 
+        
         stage.setScene(loginScene);
         stage.setTitle("Payroll Management System");
         stage.setWidth(900);
         stage.setHeight(650);
         stage.show();
+
+        refreshEmployees();
+        
+   
     }
 
     // ======================================================
-    // LOGIN SCENE (UNCHANGED STYLE — YOUR DESIGN)
+    // LOGIN (UNCHANGED)
     // ======================================================
     private void createLoginScene() {
 
@@ -111,310 +120,242 @@ public class BossGUI extends Application {
                 "-fx-background-radius: 10;"
         );
 
-        
-    
-
         loginScene = new Scene(layout, 350, 400);
     }
 
     // ======================================================
-    // DASHBOARD (CARD STYLE)
+    // DASHBOARD
     // ======================================================
     private void createDashboardScene() {
 
-        // ===== TITLE =====
         Label title = new Label("Monthly Statistics");
         title.setStyle("-fx-font-size: 35px; -fx-font-weight: bold;");
 
-        Label monthly = new Label("");
-        monthly.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-
-        // ===== IMAGE =====
-        VBox imageBox = new VBox();
-        imageBox.setAlignment(Pos.CENTER);
-
-        // ===== BUTTONS =====
-        Button employeesBtn = new Button("Employee Management");
-        Button tasksBtn = new Button("Task Management");
-        Button reportsBtn = new Button("Reports");
+        Button empBtn = new Button("Employees");
+        Button taskBtn = new Button("Tasks");
+        Button repBtn = new Button("Reports");
         Button logoutBtn = new Button("Logout");
+        
+        empBtn.setMaxWidth(200);
+        taskBtn.setMaxWidth(200);
+        repBtn.setMaxWidth(200);
+        logoutBtn.setMaxWidth(200);
+        
+        
 
-        employeesBtn.setPrefWidth(180);
-        tasksBtn.setPrefWidth(180);
-        reportsBtn.setPrefWidth(180);
-        logoutBtn.setPrefWidth(180);
-
-        employeesBtn.setOnAction(e -> stage.setScene(employeeScene));
-        tasksBtn.setOnAction(e -> stage.setScene(taskScene));
-        reportsBtn.setOnAction(e -> stage.setScene(reportScene));
+        empBtn.setOnAction(e -> stage.setScene(employeeScene));
+        taskBtn.setOnAction(e -> stage.setScene(taskScene));
+        repBtn.setOnAction(e -> stage.setScene(reportScene));
         logoutBtn.setOnAction(e -> stage.setScene(loginScene));
 
-        // ===== BUTTON ROWS =====
-        HBox row1 = new HBox(15);
-        row1.setAlignment(Pos.CENTER);
-        row1.getChildren().addAll(employeesBtn, tasksBtn);
+     
 
-        HBox row2 = new HBox(15);
-        row2.setAlignment(Pos.CENTER);
-        row2.getChildren().addAll(reportsBtn, logoutBtn);
-
-        // ===== STATS SECTION =====
-        VBox statsBox = new VBox(40,
-                imageBox,
-               
+        VBox root = new VBox(20,
+                title,
                 budgetLabel,
                 costLabel,
-                statusLabel
+                statusLabel,empBtn,taskBtn,repBtn,logoutBtn
+                
         );
-        statsBox.setAlignment(Pos.CENTER);
 
-        // ===== MAIN ROOT (ALL IN ONE VBOX) =====
-        VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
-
-        root.getChildren().addAll(
-                title,
-                statsBox,
-                row1,
-                row2
-        );
-
-        // ===== CARD STYLE =====
-        root.setStyle(
-                "-fx-background-color: white;" +
-                "-fx-border-color: #ddd;" +
-                "-fx-border-radius: 20;" +
-                "-fx-background-radius: 20;"
-        );
 
         dashboardScene = new Scene(root, 550, 500);
 
         refreshDashboard();
     }
+
     // ======================================================
-    // EMPLOYEE MANAGEMENT (REAL SYSTEM)
+    // EMPLOYEES
     // ======================================================
     private void createEmployeeScene() {
 
         Label title = new Label("Employee Management");
+        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
-        // ===== INPUT =====
+        // ================= INPUT =================
         TextField name = new TextField();
         name.setPromptText("Name");
         name.setMaxWidth(200);
 
         ComboBox<String> type = new ComboBox<>();
-        type.getItems().addAll("Custodian", "Business Employee");
+        type.getItems().addAll("Custodian", "Business Emp", "Engineer"," IT worker");
         type.setPromptText("Select Role");
         type.setMaxWidth(200);
 
-        Button add = new Button("Hire");
-        Button remove = new Button("Fire Selected");
+        // ================= LIST =================
+        employeeListView.setPrefHeight(250);
+        employeeListView.setPrefWidth(350);
+
+        // ================= BUTTONS =================
+        Button hire = new Button("Hire Employee");
+        Button fire = new Button("Fire Selected");
         Button back = new Button("Back");
 
-        add.setMaxWidth(200);
-        remove.setMaxWidth(200);
+        hire.setMaxWidth(200);
+        fire.setMaxWidth(200);
         back.setMaxWidth(200);
 
-        // ===== HIRE LOGIC =====
-        add.setOnAction(e -> {
-
-            String n = name.getText();
-            String t = type.getValue();
-
-            if (n == null || n.isEmpty() || t == null) return;
-
-            Employee emp;
-
-            if (t.equals("Custodian")) {
-
-            } else {
-
-            }
-
-            employees.add(emp);
-            initializeScores();
-            refreshEmployees();
-            refreshDashboard();
-
-            // optional cleanup
-            name.clear();
-            type.setValue(null);
-        });
-
-        // ===== REMOVE =====
-        remove.setOnAction(e -> {
-            Employee selected = employeeListView.getSelectionModel().getSelectedItem();
-            employeeListView.setPrefWidth(300);
-            employeeListView.setPrefHeight(200);
-
-            if (selected != null) {
-                employees.remove(selected);
-                refreshEmployees();
-                refreshDashboard();
-            }
-        });
-
-        // ===== BACK =====
+        // ================= HIRE LOGIC =================
+        hire.setOnAction(e -> { String n = name.getText(); 
+        
+        String t = type.getValue(); if (n == null || n.isEmpty() || t == null) return;
+        UserInterface.HireEmployee(n, t);
+        refreshEmployees(); refreshDashboard();
+        name.clear(); type.setValue(null); });
+        // ================= BACK =================
         back.setOnAction(e -> stage.setScene(dashboardScene));
 
-        // ===== FORM =====
-        VBox form = new VBox(10,
-                name,
-                type,
-                add,
-                remove,
-                back
-        );
-        form.setAlignment(Pos.CENTER);
-        VBox.setVgrow(employeeListView, Priority.ALWAYS);
-
-        // ===== MAIN LAYOUT =====
-        VBox card = new VBox(30,
+        // ================= LAYOUT =================
+        VBox layout = new VBox(15,
                 title,
                 employeeListView,
-                form
+                name,
+                type,
+                hire,
+                fire,
+                back
         );
 
-        card.setAlignment(Pos.CENTER);
-        card.setPadding(new Insets(25));
-        card.setMaxWidth(500);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
 
-        VBox root = new VBox(card);
-        root.setAlignment(Pos.CENTER);
+        employeeScene = new Scene(layout, 450, 550);
 
-        employeeScene = new Scene(root, 400, 500);
-
-        
         refreshEmployees();
     }
 
     // ======================================================
-    // TASK SCENE
+    // TASKS
     // ======================================================
     private void createTaskScene() {
 
         Label title = new Label("Task Management");
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // ===== SELECT EMPLOYEE =====
+        // ================= INPUTS =================
         ComboBox<Employee> employeeBox = new ComboBox<>();
-        employeeBox.setPromptText("Select Employee");
-        employeeBox.setMaxWidth(200);
+        employeeBox.getItems().setAll(employees);
 
-        // ===== TASK INPUT =====
-        TextField taskField = new TextField();
-        taskField.setPromptText("Enter Task");
-        taskField.setMaxWidth(200);
+        TextField taskTitle = new TextField();
+        taskTitle.setPromptText("Task Title");
+
+        TextField taskDesc = new TextField();
+        taskDesc.setPromptText("Task Description");
+
+
+        Label msg = new Label();
 
         Button assignBtn = new Button("Assign Task");
-        Button back = new Button("Back");
+        Button backBtn = new Button("Back");
 
-        assignBtn.setMaxWidth(200);
-        back.setMaxWidth(200);
+        // ================= GRID =================
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(20));
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setAlignment(Pos.CENTER);
 
-        // ===== ASSIGN LOGIC =====
+        // Row 0
+        grid.add(title, 0, 0, 2, 1);
+
+        // Row 1
+        grid.add(new Label("Employee:"), 0, 1);
+        grid.add(employeeBox, 1, 1);
+
+        // Row 2
+        grid.add(new Label("Title:"), 0, 2);
+        grid.add(taskTitle, 1, 2);
+
+        // Row 3
+        grid.add(new Label("Description:"), 0, 3);
+        grid.add(taskDesc, 1, 3);
+
+       ;
+
+        // Row 5
+        grid.add(assignBtn, 0, 5);
+        grid.add(backBtn, 1, 5);
+
+        // Row 6
+        grid.add(msg, 0, 6, 2, 1);
+
+        // ================= ASSIGN LOGIC =================
         assignBtn.setOnAction(e -> {
 
             Employee selected = employeeBox.getValue();
-            if (selected == null) return;
 
-            String taskName = taskField.getText();
-
-            // CASE 1: user typed a task
-            if (taskName != null && !taskName.isEmpty()) {
-                selected.addTask(new Task(taskName));
+            if (selected == null) {
+                msg.setText("Select an employee");
+                return;
             }
 
-            // CASE 2: also add random tasks (your simulation logic)
-            List<Task> tasks = taskManager.assignTasks();
+            String t = taskTitle.getText();
+            String d = taskDesc.getText();
 
-            for (Task t : tasks) {
-                selected.addTask(t);
+            if (t == null || t.isEmpty()) {
+                msg.setText("Enter task title");
+                return;
             }
 
-            taskField.clear();
+            if (d == null) d = "";
+
+            UserInterface.CreateTask(taskTitle.getText(), taskDesc.getText());
+            refreshEmployees();
+            refreshDashboard();
+            refreshTaskEmployees();
+
+            // allow manual override of completion
+           
+
+
+            taskTitle.clear();
+            taskDesc.clear();
+            
+
+            msg.setText("Task assigned!");
 
             refreshEmployees();
             refreshDashboard();
         });
 
-        // ===== BACK =====
-        back.setOnAction(e -> stage.setScene(dashboardScene));
+        // ================= BACK =================
+        backBtn.setOnAction(e -> stage.setScene(dashboardScene));
 
-        // ===== LAYOUT =====
-        VBox card = new VBox(12,
-                title,
-                employeeBox,
-                taskField,
-                assignBtn,
-                back
-        );
-
-        card.setAlignment(Pos.CENTER);
-        card.setPadding(new Insets(25));
-        card.setMaxWidth(320);
-
-        VBox root = new VBox(card);
-        root.setAlignment(Pos.CENTER);
-
-        taskScene = new Scene(root, 350, 400);
-
-        // 🔥 FIX: always refresh dropdown when scene opens
-        employeeBox.getItems().setAll(employees);
+        // ================= SCENE =================
+        taskScene = new Scene(grid, 450, 400);
     }
+
     // ======================================================
-    // REPORT SCENE
+    // REPORT
     // ======================================================
     private void createReportScene() {
 
         TextArea report = new TextArea();
         report.setText(generateReport());
-        report.setPrefHeight(150);
-        report.setMaxWidth(300);
 
         Button back = new Button("Back");
-        back.setMaxWidth(200);
-
         back.setOnAction(e -> stage.setScene(dashboardScene));
 
-        VBox card = new VBox(12,
-                new Label("Reports"),
+        VBox layout = new VBox(10,
+                new Label("Report"),
                 report,
                 back
         );
 
-        card.setAlignment(Pos.CENTER);
-        card.setPadding(new Insets(25));
-        card.setMaxWidth(320);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
 
-        VBox root = new VBox(card);
-        root.setAlignment(Pos.CENTER);
-
-        reportScene = new Scene(root, 350, 400);
+        reportScene = new Scene(layout, 350, 400);
     }
 
     // ======================================================
     // LOGIC
     // ======================================================
     private void refreshEmployees() {
-
-    	    // recalculate scores BEFORE showing UI
-    	    for (Employee e : employees) {
-
-    	        e.performanceScore = 0;
-
-    	        if (e.getTasks().isEmpty()) {
-    	            e.addTask(new Task("Basic Work"));
-    	            e.addTask(new Task("Assessment Task"));
-    	        }
-
-    	        e.evaluateTasks(taskManager);
-    	    }
-
-    	    employeeListView.setItems(FXCollections.observableArrayList(employees));
-    	}
-    
+        employeeListView.setItems(FXCollections.observableArrayList(employees));
+    }
 
     private void refreshDashboard() {
         double cost = calculatePayroll();
@@ -422,27 +363,7 @@ public class BossGUI extends Application {
         budgetLabel.setText("Budget: $" + budget);
         costLabel.setText("Payroll: $" + cost);
 
-        statusLabel.setText(cost <= budget ? "Status: UNDER BUDGET" : "Status: OVER BUDGET");
-    }
-    
-    private void initializeScores() {
-
-        for (Employee e : employees) {
-
-            // If employee has no tasks yet, give a simple starter workload
-            if (e.getTasks().isEmpty()) {
-
-                e.addTask(new Task("Basic Work"));
-                e.addTask(new Task("Assessment Task"));
-            }
-
-            // Reset score so it doesn't stack every time you open scene
-            // (important or scores will inflate)
-            e.performanceScore = 0;
-
-            // Evaluate once to generate a meaningful baseline score
-            e.evaluateTasks(taskManager);
-        }
+        statusLabel.setText(cost <= budget ? "UNDER BUDGET" : "OVER BUDGET");
     }
 
     private double calculatePayroll() {
@@ -462,6 +383,4 @@ public class BossGUI extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }
-  

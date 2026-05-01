@@ -1,4 +1,4 @@
-package com.example;
+package demo.src.main.java.com.example;
 import java.util.ArrayList;
 public class Employee implements java.io.Serializable {
     protected String name;
@@ -12,6 +12,7 @@ public class Employee implements java.io.Serializable {
         this.name = name;
         this.skill = 0.3 + Math.random() * 0.7; //adds the random skill between 30 and 100
         this.Occupation = occupation;
+        this.salary=3000;
     }
 
     public void TakeOnTask(Task task){
@@ -27,17 +28,19 @@ public class Employee implements java.io.Serializable {
         }
 
         this.OnGoingTasks.add(task);
-
-    } 
-
+    }
+    
+    
+    
     public void ClearTask(){
         this.OnGoingTasks.clear();
     }
 
-    public String SelfAsses() {
-        return "Name: " + this.name + "\nOccupation: "+ this.Occupation +
-               "\nPerformanceScore: " + this.performanceScore + "\nSalary: " + this.salary +
-                "\nTasks: " + this.OnGoingTasks.toString() +
+    @Override
+    public String toString() {
+        return "Name: " + this.name + " | Occupation: "+ this.Occupation +
+               " | PerformanceScore: " + this.performanceScore + " | Salary: " + this.salary +
+                " | Tasks: " + this.OnGoingTasks.size() +
                 "\n";
     }
 }
