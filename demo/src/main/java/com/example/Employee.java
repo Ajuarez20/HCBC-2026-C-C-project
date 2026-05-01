@@ -31,6 +31,10 @@ public class Employee implements java.io.Serializable {
 
     } 
 
+    public void ClearTask(){
+        this.OnGoingTasks.clear();
+    }
+
     public String SelfAsses() {
         return "Name: " + this.name + "\nOccupation: "+ this.Occupation +
                "\nPerformanceScore: " + this.performanceScore + "\nSalary: " + this.salary +

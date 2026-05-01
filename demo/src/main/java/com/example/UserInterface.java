@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserInterface{
+    @SuppressWarnings("FieldMayBeFinal")
     private static ArrayList<Employee> Employeelist = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -47,16 +48,20 @@ public class UserInterface{
 
         // add a gui Option that protects certin employees from being fired
 
-        StringBuilder info = employeeINFO();
+        ArrayList<String> ProtectedEmployeeNames = new ArrayList<>();    
 
-        info.append("""
-                    I must layoff an employee/s which employee/s should I layoff \n
-                    Respond with only the Employee/s name/s (if more than one employee separate thier name by commas) exactly as it was written
-                    """);
+        String info = employeeINFO().toString() + """
+                    \n\nI must layoff an employee/s which employee/s should I layoff \n
+                    Evaluate the least critical Employee based on their performance 
+                    score and whether there is oneor more other Employee/s with the 
+                    same/smiliar occupation Respond with only the Employee/s name/s 
+                    (if more than one employee separate thier name by commas) exactly 
+                    as it was written \nProtected Employies (employees u dont fire) 
+                    are :""" + ProtectedEmployeeNames.toString();
         
         System.out.println(info);
 
-        String response = model.chatbot.chat(info.toString());
+        String response = model.chatbot.chat(info);
         System.out.println(response);
 
         String[] names = response.split("[,\\s]+");
@@ -73,6 +78,31 @@ public class UserInterface{
             return false;
         });
 
+    }
+
+    public static void GiveRaises(){
+
+        String info = employeeINFO().toString() + """
+        \n\nwhich Employee/s deserve a raise based on there performance, task/s 
+        completion status and skill, Deserver a raise pick one or more employee\n
+        Respond with only the Employee/s name/s (if more than one employee separate 
+        thier name by commas) exactly as it was written
+        """;
+
+        String response = model.chatbot.chat(info);
+        System.out.println(response);
+
+        String[] names = response.split("[,\\s]+");
+        ArrayList<String> toReciveRaise = new ArrayList<>(Arrays.asList(names));
+
+        for (Employee e : Employeelist ) {
+
+            for (String name : toReciveRaise) {
+                if (e.name.equals(name)){
+                    
+                }    
+            }
+        }
     }
 
     public static void CreateTask(String taskName, String taskDiscription){
